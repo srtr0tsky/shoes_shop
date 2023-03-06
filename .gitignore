@@ -1,5 +1,6 @@
 *.pyc
 *.sqlite3
 __pycache__
-
+shoes_shop-key
+shoes_shop-key.pub
 
