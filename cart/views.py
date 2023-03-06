@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import ShoppingCartDatabase
 from product.models import Product
 from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -25,8 +26,8 @@ def remove_from_cart(request, slug):
     obj_cart = get_object_or_404(ShoppingCartDatabase, product=product_name)
     ShoppingCartDatabase.objects.filter(product=obj_cart.product).delete()
     return redirect(request.META.get('HTTP_REFERER'))
-@login_required(login_url='/accounts/login/')
-class ShowItemsCart(ListView):
+
+class ShowItemsCart(LoginRequiredMixin, ListView):
     template_name = 'shopping-cart.html'
     model = ShoppingCartDatabase
 

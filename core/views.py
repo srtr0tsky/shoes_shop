@@ -8,15 +8,17 @@ from django.views.generic import (
     CreateView)
 from cart.models import ShoppingCartDatabase
 from product.models import Product
-from django.contrib.auth.decorators import login_required
-@login_required(login_url='/accounts/login/')
-class MainPage(ListView):
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+
+class MainPage(LoginRequiredMixin, ListView):
     template_name = 'index.html'
     model = Product
 
 
-@login_required(login_url='/accounts/login/')
-class DetailProduct(DetailView):
+
+class DetailProduct(LoginRequiredMixin, DetailView):
     template_name = 'detail-product.html'
     model = Product
     def get_context_data(self, **kwargs):
