@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block 'title' %} Home - Shoes Shop {% endblock %}
+
+{% block 'main' %}
+<style>
+    .container {
+    height: 140px;
+    width: 100%;
+    border: solid 1px red;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+img {
+    white-space: nowrap;
+}
+</style>
+
+    <script>
+        var myCarousel = document.querySelector('#myCarousel')
+        var carousel = new bootstrap.Carousel(myCarousel, {
+          interval: 2000,
+          wrap: false
+        })
+    </script>
+    <!-- section nav -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="z-index: 200; position: fixed; top: 0pt; width: 100%;">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" style="font-size:35px;" href="#">Shoes Shop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" style="font-size:20px;" aria-current="page" href="{% url 'main_page' %}">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_cart' %}" style="font-size:20px;" >Shopping cart</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="font-size:20px;"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#" >Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-light" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <!-- end section nav -->
+
+    <br>
+
+
+    <div class="container-md bg-light rounded-4" style="padding:20pt; margin-top: 40pt; " >
+
+            <h1>Top Products</h1>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4 mx-auto" style="padding:10pt;">
+                {% for item in object_list %}
+                    <div class="col " style="max-width: 15rem;">
+                        <div class="card h-100 text-center">
+                            <img src="{{item.image_product.url}}" class="card-img-top" HEIGHT="99" WIDTH="auto"  alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{item.product_name}}</h5>
+                                <p class="card-text">${{item.price}}</p>
+                                <a href="{% url 'detail_product' item.slug %}" class="btn btn-primary">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+{%endblock%}
+

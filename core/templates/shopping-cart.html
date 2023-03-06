@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+
+{% block 'main' %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="z-index: 200; position: fixed; top: 0pt; width: 100%;">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" style="font-size:35px;" href="{% url 'main_page' %}">Shoes Shop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link " style="font-size:20px;" aria-current="page" href="{% url 'main_page'%}">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'view_cart'%}" style="font-size:20px;" >Shopping cart</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" style="font-size:20px;"  role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#" >Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-light" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container" style="margin-top: 100pt;">
+      <div class="row" style="font-size: 18pt;">
+        <div class="col-sm-8">
+          <table class="table table-hover" >
+            <tr>
+              <th> Product</th>
+              <th> Price ($) </th>
+            </tr>
+            {% if object_list.exists  %}
+              {% for item in object_list %}
+
+                <tr>
+                  <td> <a href="{% url 'detail_product' item.slug %}" style="text-decoration: none;">{{item.product | upper}} </a></td>
+                  <td style="color: green;"> + <span class="price"> {{item.price}} </span> </td>
+                  <td class="fw-bold"> <a href="{% url 'remove_from_cart' item.slug %}" class="fw-bold"  style="font-size: 20pt; color:red; text-decoration: none;"> X</a> </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td style="color: grey; opacity: .4; " class="fw-bold text-center"> You have no items in your shopping cart </td>
+              </tr>
+            {% endif %}
+
+          </table>
+        </div>
+        <div class="col-sm-4 text-center" style="border-left: 2px #0D6EFD solid;">
+          <p>Subtotal <br> <span id="subtotal">   </span></p><br>
+          <p>Total<br> <span id="price"></span></p><br>
+          <button type="" class="btn btn-success fw-bold" style=" height: 50pt; width: 200pt;"> Continue to checkout </button>
+        </div>
+      </div>
+    </div>
+
+
+<script type="text/javascript">
+  var prices = window.document.getElementsByClassName('price');
+  var total = 0
+  for (var i = 0; i < prices.length; i++){
+        value = parseFloat(prices[i].innerHTML);
+		total = total+value;
+    }
+  window.document.getElementById('price').innerHTML = '$ ' + total.toFixed(2);
+  window.document.getElementById('subtotal').innerHTML = '$ ' + total.toFixed(2);
+</script>
+{% endblock %}
