@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import ShoppingCartDatabase
 from product.models import Product
 from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+@login_required(login_url='/accounts/login/')
 def add_to_cart(request, slug):
     context = {}
     if slug != ' ':
@@ -18,13 +19,13 @@ def add_to_cart(request, slug):
 
     return render(request, template_name='shopping-cart.html', context=context)
 
-
+@login_required(login_url='/accounts/login/')
 def remove_from_cart(request, slug):
     product_name = get_object_or_404(Product, slug=slug)
     obj_cart = get_object_or_404(ShoppingCartDatabase, product=product_name)
     ShoppingCartDatabase.objects.filter(product=obj_cart.product).delete()
     return redirect(request.META.get('HTTP_REFERER'))
-
+@login_required(login_url='/accounts/login/')
 class ShowItemsCart(ListView):
     template_name = 'shopping-cart.html'
     model = ShoppingCartDatabase

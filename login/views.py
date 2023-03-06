@@ -3,11 +3,13 @@ from django.urls import reverse, reverse_lazy
 from django import forms
 from django.contrib.auth.models import User
 from .forms import SignUpForm
+
 from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
     FormView)
+
 class RegisterUser(FormView):
     template_name='register_account.html'
     form_class = SignUpForm
